@@ -9,13 +9,8 @@
 <body>
     <?php
     session_start();
-    // $_SESSION['username'] = "ahmed";
-    
-    session_destroy();
-     if (isset($_SESSION['username'])) {
-        echo $_SESSION['username'];
-    } 
-    
     ?>
+    <h1>Welcome <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : header('location:login.php');?></h1>
+    <p><a href="logout.php">Logout</a></p>
 </body>
 </html>

@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Welcome <?php echo $_POST['fname'];?></h1>
+    <h1>Welcome <?php if(isset($_POST['fname'])) echo $_POST['fname'];?></h1>
 </body>
 </html>

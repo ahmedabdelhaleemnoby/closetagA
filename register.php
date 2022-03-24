@@ -28,11 +28,13 @@
         $pass = $_POST['password'];
         $pass_hash = base64_encode($_POST['password']);
         $cpass = $_POST['cPassword'];
-        echo $pass_hash;
+
+        echo $_POST['fname'];
+       
     }
     ?>
     </h1>
-    <form action="" method="post">
+    <form action="welcome.php" method="post">
         <input type="text" name="fname" placeholder="FName">
         <input type="text" name="lname" placeholder="LName">
         <input type="text" name="uname" placeholder="Username">
@@ -41,5 +43,18 @@
         <input type="password" name="cPassword" placeholder="rePassword">
         <button type="submit">sign up</button>
     </form>
+    <!-- 
+    - action [internal - external] -> https://www.google.com welcome.php
+    - method [get,post]
+    [get] -> URL ?username=ahmed&password=123123
+    -> limited [256 char]
+    -> unsecure -> password etc
+    -> speed post
+    [post]-> http request background
+    - input type 
+    - input name 
+    - submit -> redirct to action url
+
+     -->
 </body>
 </html>
