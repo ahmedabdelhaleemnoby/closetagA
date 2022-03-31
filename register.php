@@ -27,21 +27,34 @@
             $uname = strtolower($_POST['uname']);
             $mail = strtolower($_POST['email']);
             $pass = $_POST['password'];
-            $pass_hash = base64_encode($_POST['password']);
+            $pass_hash = md5($_POST['password']);
             $cpass = $_POST['cPassword'];
+            $gender = $_POST['gender'];
+            //    mysql connect
+            $con = mysqli_connect("localhost", "root", "", "closetag");
 
-            echo $_POST['fname'];
+            //    mysql query(insert,update,select,delete)
+            $insert = mysqli_query($con, "INSERT INTO users (fname,lname,email,username,password,gender) 
+            VALUES ('$fname','$lname','$mail','$uname','$pass_hash','$gender')");
+
+            // close connection
+            mysqli_close($con);
+            // echo $_POST['fname'];
         }
         ?>
     </h1>
-    <form action="welcome.php" method="post">
-        <input type="text" name="fname" placeholder="FName">
-        <input type="text" name="lname" placeholder="LName">
-        <input type="text" name="uname" placeholder="Username">
-        <input type="email" name="email" placeholder="email">
-        <input type="password" name="password" placeholder="password">
-        <input type="password" name="cPassword" placeholder="rePassword">
-        <button type="submit">sign up</button>
+    <form action="" method="post">
+        <input type="text" name="fname" placeholder="FName"><br>
+        <input type="text" name="lname" placeholder="LName"><br>
+        <input type="text" name="uname" placeholder="Username"><br>
+        <input type="email" name="email" placeholder="email"><br>
+        <select name="gender">
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+        </select><br>
+        <input type="password" name="password" placeholder="password"><br>
+        <input type="password" name="cPassword" placeholder="rePassword"><br>
+        <button type="submit">sign up</button><br>
     </form>
     <!-- 
     - action [internal - external] -> https://www.google.com welcome.php
