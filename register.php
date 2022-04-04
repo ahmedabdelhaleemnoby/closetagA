@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+include('connect.php');
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -31,15 +34,44 @@
             $cpass = $_POST['cPassword'];
             $gender = $_POST['gender'];
             //    mysql connect
-            $con = mysqli_connect("localhost", "root", "", "closetag");
+            connect();
 
-            //    mysql query(insert,update,select,delete)
-            $insert = mysqli_query($con, "INSERT INTO users (fname,lname,email,username,password,gender) 
+            $select_user = mysqli_query($con, "SELECT username FROM users WHERE username='$uname'");
+            $select_email = mysqli_query($con, "SELECT email FROM users WHERE email='$mail'");
+            $count_user = mysqli_num_rows($select_user);
+            $count_mail = mysqli_num_rows($select_email);
+            if ($fname == "") {
+                echo "please enter first name";
+            } elseif ($lname == "") {
+                echo "please enter last name";
+            } elseif ($uname == "") {
+                echo "please enter user name";
+            } elseif ($mail == "") {
+                echo "please enter Email";
+            } elseif ($pass == "") {
+                echo "please enter Password";
+            } elseif (strlen($pass) < 6) {
+                echo "please enter more than 6 char";
+            } elseif ($pass != $cpass) {
+                echo "password & confirm password not matched";
+            } elseif ($count_user > 0) {
+                echo "username is exist";
+            } elseif ($count_mail > 0) {
+                echo "email is already sign";
+            } else {
+
+
+
+                // echo  $count_user;
+
+                //    mysql query(insert,update,select,delete)
+                $insert = mysqli_query($con, "INSERT INTO users (fname,lname,email,username,password,gender) 
             VALUES ('$fname','$lname','$mail','$uname','$pass_hash','$gender')");
 
-            // close connection
-            mysqli_close($con);
-            // echo $_POST['fname'];
+                // close connection
+                mysqli_close($con);
+                // echo $_POST['fname'];
+            }
         }
         ?>
     </h1>
