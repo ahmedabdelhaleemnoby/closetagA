@@ -19,6 +19,7 @@ include('connect.php');
             <table class="table table-dark table-striped col-md-12">
                 <tr>
                     <th>#</th>
+                    <!-- <th>Order</th> -->
                     <th>First name</th>
                     <th>last name</th>
                     <th>user name</th>
@@ -27,12 +28,18 @@ include('connect.php');
                 </tr>
                 <?php
                 connect();
+                // $select = mysqli_query($con, "SELECT * FROM users ORDER BY username DESC,email ASC");
+                // $select = mysqli_query($con, "SELECT * FROM users WHERE username LIKE 'ahmed%'");
+                // $select = mysqli_query($con, "SELECT * FROM users WHERE username = 'ahmed'");
                 $select = mysqli_query($con, "SELECT * FROM users");
-
+                // $select = mysqli_query($con, "SELECT * FROM users LIMIT 5,5");
+                // $select = mysqli_query($con, "SELECT * FROM users WHERE id NOT IN (5,8)");
+                // $x = 1;
                 while ($user = mysqli_fetch_array($select)) {
                     echo
                     "<tr>" .
                         "<td>" . $user['id'] . "</td>" .
+                        // "<td>" . $x . "</td>" .
                         "<td>" . $user['fname'] . "</td>" .
                         "<td>" . $user['lname'] . "</td>" .
                         "<td>" . $user['username'] . "</td>" .
@@ -44,13 +51,14 @@ include('connect.php');
   </a>
 
   <ul class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-    <li><a class='dropdown-item' href='#'>Edit</a></li>
+    <li><a class='dropdown-item' href='request.php?edit=$user[username]'>Edit</a></li>
     <li><a class='dropdown-item' href='#'>Delete</a></li>
     
   </ul>
 </div>
                         </td>" .
                         "</tr>";
+                    // $x++;
                 }
                 ?>
             </table>
