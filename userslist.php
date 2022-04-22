@@ -15,54 +15,105 @@ include('connect.php');
 
 <body>
     <div class="container mt-4">
-        <div class="row">
-            <table class="table table-dark table-striped col-md-12">
-                <tr>
-                    <th>#</th>
-                    <!-- <th>Order</th> -->
-                    <th>First name</th>
-                    <th>last name</th>
-                    <th>user name</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-                <?php
-                connect();
-                // $select = mysqli_query($con, "SELECT * FROM users ORDER BY username DESC,email ASC");
-                // $select = mysqli_query($con, "SELECT * FROM users WHERE username LIKE 'ahmed%'");
-                // $select = mysqli_query($con, "SELECT * FROM users WHERE username = 'ahmed'");
-                $select = mysqli_query($con, "SELECT * FROM users");
-                // $select = mysqli_query($con, "SELECT * FROM users LIMIT 5,5");
-                // $select = mysqli_query($con, "SELECT * FROM users WHERE id NOT IN (5,8)");
-                // $x = 1;
-                while ($user = mysqli_fetch_array($select)) {
-                    echo
-                    "<tr>" .
-                        "<td>" . $user['id'] . "</td>" .
-                        // "<td>" . $x . "</td>" .
-                        "<td>" . $user['fname'] . "</td>" .
-                        "<td>" . $user['lname'] . "</td>" .
-                        "<td>" . $user['username'] . "</td>" .
-                        "<td>" . $user['email'] . "</td>" .
-                        "<td>
+        <?php
+        connect();
+
+        if (isset($_GET['edit'])) {
+
+            $username = $_GET['edit'];
+
+
+            if (isset($_POST['email'])) {
+                $fname = strtolower($_POST['fname']);
+                $lname = strtolower($_POST['lname']);
+                $uname = strtolower($_POST['uname']);
+                $mail = strtolower($_POST['email']);
+                $update = mysqli_query($con, "UPDATE users SET fname='$fname' , lname='$lname' WHERE username='$username' ");
+                if ($update) {
+        ?>
+                    <div class="row">
+                        <div class="alert col-md-12 alert-success">User Updated Successfully</div>
+                    </div>
+            <?php
+                }
+            }
+            $select_user = mysqli_query($con, "SELECT * FROM users WHERE username='$username'");
+            $user = mysqli_fetch_array($select_user);
+            ?>
+
+
+            <h1>Edit <?php echo $_GET['edit']; ?></h1>
+            <form action="" method="post">
+                <input type="text" class="form-control mb-2" name="fname" placeholder="FName" value="<?php echo $user['fname']; ?>">
+                <input type="text" class="form-control mb-2" name="lname" placeholder="LName" value="<?php echo $user['lname']; ?>">
+                <input type="text" class="form-control mb-2" name="uname" placeholder="Username" value="<?php echo $user['username']; ?>">
+                <input type="email " class=" form-control mb-2" name="email" placeholder="email" value="<?php echo $user['email']; ?>">
+                <select name="gender" class="form-control mb-2">
+                    <option value="1" <?php if ($user['gender'] == 1) {
+                                            echo 'selected';
+                                        }  ?>>Male</option>
+                    <option value="2" <?php if ($user['gender'] == 2) {
+                                            echo 'selected';
+                                        }  ?>>Female</option>
+                </select>
+
+                <button type="submit" class=" form-control ">Save</button>
+
+            </form>
+        <?php
+        } else {
+        ?>
+            <div class="row">
+                <table class="table table-dark table-striped col-md-12">
+                    <tr>
+                        <th>#</th>
+                        <!-- <th>Order</th> -->
+                        <th>First name</th>
+                        <th>last name</th>
+                        <th>user name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                    <?php
+
+                    // $select = mysqli_query($con, "SELECT * FROM users ORDER BY username DESC,email ASC");
+                    // $select = mysqli_query($con, "SELECT * FROM users WHERE username LIKE 'ahmed%'");
+                    // $select = mysqli_query($con, "SELECT * FROM users WHERE username = 'ahmed'");
+                    $select = mysqli_query($con, "SELECT * FROM users");
+                    // $select = mysqli_query($con, "SELECT * FROM users LIMIT 5,5");
+                    // $select = mysqli_query($con, "SELECT * FROM users WHERE id NOT IN (5,8)");
+                    // $x = 1;
+                    while ($user = mysqli_fetch_array($select)) {
+                        echo
+                        "<tr>" .
+                            "<td>" . $user['id'] . "</td>" .
+                            // "<td>" . $x . "</td>" .
+                            "<td>" . $user['fname'] . "</td>" .
+                            "<td>" . $user['lname'] . "</td>" .
+                            "<td>" . $user['username'] . "</td>" .
+                            "<td>" . $user['email'] . "</td>" .
+                            "<td>
                         <div class='dropdown'>
   <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
   <i class='fa-solid fa-gear'></i>
   </a>
 
   <ul class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-    <li><a class='dropdown-item' href='request.php?edit=$user[username]'>Edit</a></li>
-    <li><a class='dropdown-item' href='#'>Delete</a></li>
+    <li><a class='dropdown-item' href='?edit=$user[username]'>Edit</a></li>
+    <li><a class='dropdown-item' href='delete.php?user=$user[username]'>Delete</a></li>
     
   </ul>
 </div>
                         </td>" .
-                        "</tr>";
-                    // $x++;
-                }
-                ?>
-            </table>
-        </div>
+                            "</tr>";
+                        // $x++;
+                    }
+                    ?>
+                </table>
+            </div>
+        <?php
+        }
+        ?>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
