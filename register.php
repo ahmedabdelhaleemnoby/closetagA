@@ -87,7 +87,6 @@ include('connect.php');
         <input type="password" name="password" placeholder="password"><br>
         <input type="password" name="cPassword" placeholder="rePassword"><br>
         <button type="submit">sign up</button><br>
-        <button type="submit">sign up</button><br>
     </form>
     <!-- 
     - action [internal - external] -> https://www.google.com welcome.php
